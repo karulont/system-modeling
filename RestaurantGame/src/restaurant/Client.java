@@ -4,11 +4,8 @@
 
 package restaurant;
 
-public class Client
+public class Client extends Person
 {
-	private String name;
-	
-	private String surname;
 	
 	private String telephone;
 	

@@ -4,12 +4,8 @@
 
 package restaurant;
 
-public class Employee
+public class Employee extends Person
 {
-	private String name;
-	
-	private String surname;
-	
 	private int salary;
 	
 	private Experience experience;
