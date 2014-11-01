@@ -11,8 +11,8 @@ public class Table {
 		this.number = number;
 	}
 
-	public void assignToWaiter(Waiter waiter) {
-
+	public void assignToWaiter(Waiter waiter){
+		waiter.tables.add(this);
 	}
 
 }

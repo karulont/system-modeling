@@ -4,10 +4,15 @@
 
 package restaurant;
 
+import java.util.ArrayList;
+
 public class Waiter extends Employee
 {
-	
-	private Table tables;
+
+	public Waiter() {
+		tables=new ArrayList<Table>(3);
+	}
+	protected ArrayList<Table> tables;
 	
 	public void computeSalary( )
 	{
