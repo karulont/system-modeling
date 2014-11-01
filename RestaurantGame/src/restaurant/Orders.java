@@ -4,9 +4,11 @@
 
 package restaurant;
 
+import java.util.Date;
+
 public class Orders
 {
-	private date time;
+	private Date time;
 	
 	private String orderNo;
 	
