@@ -5,7 +5,9 @@
 package restaurant;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -64,6 +66,37 @@ public class GameController {
 			p.name = names.get(r.nextInt(names.size()));
 			p.surname = surnames.get(r.nextInt(surnames.size()));
 		}
+	}
+	
+	public void mainLoop() {
+		System.out.println("Enter line mtf.");
+		Scanner scn = new Scanner(System.in);
+		boolean exit = false;
+		while (!exit) {
+			String line = scn.nextLine();
+			Scanner ln = new Scanner(line);
+			try {
+				String token = ln.next();
+				switch (token) {
+				case "exit":
+					exit = true;
+					break;
+				case "echo":
+					System.out.println(ln.next());
+					break;
+				default:
+					System.out.println("Invalid input: " + line);
+					break;
+				}
+			}
+			catch (NoSuchElementException ex) {
+				System.out.println("Invalid input: " + line);
+			}
+			finally {
+				ln.close();
+			}
+		}
+		scn.close();
 	}
 
 	public static void main(String[] args) throws IOException {

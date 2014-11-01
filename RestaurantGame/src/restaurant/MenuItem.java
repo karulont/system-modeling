@@ -4,22 +4,19 @@
 
 package restaurant;
 
-public class MenuItem
+public abstract class MenuItem
 {
-	private String name;
+	protected String name;
 	
-	private Quality qualityLevel;
+	protected Quality qualityLevel;
 	
-	private float price;
+	protected float price;
 	
-	public void computeProductionPrice( )
+	public abstract int computeProductionPrice( );
+	
+	public void setPrice( int price )
 	{
-		
-	}
-	
-	public void setPrice( )
-	{
-		
+		this.price = price;
 	}
 	
 	
