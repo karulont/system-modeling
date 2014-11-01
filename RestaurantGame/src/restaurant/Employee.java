@@ -6,9 +6,9 @@ package restaurant;
 
 public class Employee extends Person
 {
-	private int salary;
+	protected int salary;
 	
-	private Experience experience;
+	protected Experience experience;
 	
 	public void computeSalary( )
 	{
@@ -17,7 +17,15 @@ public class Employee extends Person
 	
 	public void increaseExperience( )
 	{
-		
+		switch(experience) {
+		case LOW:
+			experience = Experience.AVERAGE;
+			break;
+		case AVERAGE:
+			experience = Experience.HIGH;
+			default:
+				break;
+		}
 	}
 	
 	
