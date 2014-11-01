@@ -14,17 +14,26 @@ import java.io.IOException;
 
 public class GameController {
 	
-	private Restaurant restaurant;
+	public GameController() {
+		player = new Player();
+	}
 	
+	private Restaurant restaurant;
 	
 	private Player player;
 	
+	private ArrayList<Client> clients;
+	
 	public void chooseName( String name ) {
-
+		player.name = name;
 	}
 
-	public void startGame( ) {
-
+	public void startGame( ) throws IOException {
+		restaurant = new Restaurant();
+		ArrayList<Person> persons = new ArrayList<Person>();
+		persons.addAll(restaurant.employees);
+		persons.addAll(clients);
+		generateNames(persons);
 	}
 
 	public void trainEmployee( Employee employee ) {
@@ -69,8 +78,11 @@ public class GameController {
 	}
 	
 	public void mainLoop() {
-		System.out.println("Enter line mtf.");
+		
+		
+		System.out.println("Enter name!");
 		Scanner scn = new Scanner(System.in);
+		chooseName(scn.next());
 		boolean exit = false;
 		while (!exit) {
 			String line = scn.nextLine();
@@ -100,6 +112,9 @@ public class GameController {
 	}
 
 	public static void main(String[] args) throws IOException {
+		GameController gc=new GameController();
+		gc.mainLoop();
+		/*
 		ArrayList<Client> clients=new ArrayList<>();
 		clients.add(new Client());
 		clients.add(new Client());
@@ -110,6 +125,6 @@ public class GameController {
 		generateNames(pl);
 		for (Person p : pl) {
 			System.out.println(p.name + " " + p.surname);
-		}
+		}*/
 	}
 }

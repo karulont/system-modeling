@@ -4,14 +4,15 @@
 
 package restaurant;
 
-public class Table
-{
+public class Table {
 	private int number;
-	
-	public void assignToWaiter( Waiter waiter )
-	{
-		
+
+	public Table(int number) {
+		this.number = number;
 	}
-	
-	
+
+	public void assignToWaiter(Waiter waiter) {
+
+	}
+
 }

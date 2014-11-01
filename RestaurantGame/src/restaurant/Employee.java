@@ -6,6 +6,9 @@ package restaurant;
 
 public abstract class Employee extends Person
 {
+	public Employee() {
+		experience = Experience.LOW;
+	}
 	protected int salary;
 	
 	protected Experience experience;

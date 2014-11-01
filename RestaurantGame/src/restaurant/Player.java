@@ -6,7 +6,7 @@ package restaurant;
 
 public class Player
 {
-	private String name;
+	protected String name;
 	
 	private int score;
 	
