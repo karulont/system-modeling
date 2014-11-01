@@ -14,6 +14,10 @@ public abstract class MenuItem
 	
 	public abstract int computeProductionPrice( );
 	
+	public MenuItem(){
+
+	}
+	
 	public void setPrice( int price )
 	{
 		this.price = price;

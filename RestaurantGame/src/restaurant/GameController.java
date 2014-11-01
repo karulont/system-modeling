@@ -45,15 +45,29 @@ public class GameController {
 	}
 
 	public void setDishesQuality( int highNo, int lowNo ) {
-
+		
 	}
 
 	public void setBeveragesQuality( int highNo, int lowNo ) {
 
 	}
 
-	public void setPrice( float lowDCost, float highDCost, float lowBCost, float highBCost ) {
-
+	public void setPrice( int lowDCost, int highDCost, int lowBCost, int highBCost ) {
+		
+		for(MenuItem e: restaurant.menuItems){
+			if(MainDish.class.isInstance(e)){
+				if(e.qualityLevel==Quality.LOW)
+					e.setPrice(lowDCost);
+				else
+					e.setPrice(highDCost);
+			}
+			else{
+				if(e.qualityLevel==Quality.LOW)
+					e.setPrice(lowBCost);
+				else
+					e.setPrice(highBCost);
+			}
+		}
 	}
 
 	private static void generateNames(ArrayList<Person> persons) throws IOException {

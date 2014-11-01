@@ -23,7 +23,7 @@ public class Restaurant {
 
 	protected ArrayList<Employee> employees;
 
-	private MenuItem menuItems;
+	protected ArrayList<MenuItem> menuItems;
 
 	private Orders orders;
 
@@ -42,9 +42,14 @@ public class Restaurant {
 		for (int i = 0; i < 3; ++i) {
 			employees.add(new Waiter());
 		}
+		
+		for (int i = 0; i<5; i++){
+			menuItems.add(new MainDish());
+			menuItems.add(new Beverage());
+		}
 	}
 
-	public void paySuppliers(float amount) {
+	public void paySuppliers(int amount) {
 
 	}
 
@@ -52,11 +57,11 @@ public class Restaurant {
 
 	}
 
-	public void payUtilities(float amount) {
+	public void payUtilities(int amount) {
 
 	}
 
-	public void paySalaries(float amount) {
+	public void paySalaries(int amount) {
 
 	}
 
@@ -69,12 +74,12 @@ public class Restaurant {
 
 	}
 
-	public void payTraining(float amount) {
+	public void payTraining(int amount) {
 
 	}
 
 	public void processOrder(MainDish dish, Beverage beverage, Table table) {
 
 	}
-
+	
 }
