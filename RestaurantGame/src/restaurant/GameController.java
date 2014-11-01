@@ -5,6 +5,8 @@
 package restaurant;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
@@ -13,22 +15,22 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class GameController {
-	
+
 	public GameController() {
 		player = new Player();
 	}
-	
+
 	private Restaurant restaurant;
-	
+
 	private Player player;
-	
+
 	private ArrayList<Client> clients;
-	
-	public void chooseName( String name ) {
+
+	public void chooseName(String name) {
 		player.name = name;
 	}
 
-	public void startGame( ) throws IOException {
+	public void startGame() throws IOException {
 		restaurant = new Restaurant();
 		ArrayList<Person> persons = new ArrayList<Person>();
 		persons.addAll(restaurant.employees);
@@ -36,19 +38,36 @@ public class GameController {
 		generateNames(persons);
 	}
 
-	public void trainEmployee( Employee employee ) {
+	public void trainEmployee(Employee employee) {
+		//restaurant.payTraining(amount);
+	}
+
+	public void makeSelection(ArrayList<Integer> tablesPerWaiter)
+			throws GameException {
+		for (Integer w : tablesPerWaiter) {
+			if (w > 3 || w < 0) {
+				throw new GameException(
+						"Table numbers are not in required limits!");
+			}
+		}
+		for (Waiter w : restaurant.waiters) {
+			w.tables.clear();
+		}
+		ArrayList<Table> tables = new ArrayList<>(restaurant.tables);
+		Random ran = new Random();
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < tablesPerWaiter.get(i); ++j) {
+				restaurant.waiters.get(i).tables.add(tables.remove(ran
+						.nextInt(tables.size())));
+			}
+		}
+	}
+
+	public void setDishesQuality(int highNo, int lowNo) {
 
 	}
 
-	public void makeSelection( Waiter waiter, Table table ) {
-
-	}
-
-	public void setDishesQuality( int highNo, int lowNo ) {
-		
-	}
-
-	public void setBeveragesQuality( int highNo, int lowNo ) {
+	public void setBeveragesQuality(int highNo, int lowNo) {
 
 	}
 
@@ -70,17 +89,19 @@ public class GameController {
 		}
 	}
 
-	private static void generateNames(ArrayList<Person> persons) throws IOException {
-		BufferedReader nameReader = new BufferedReader(new FileReader("names.txt"));
-		ArrayList<String> names=new ArrayList<>();
+	private static void generateNames(ArrayList<Person> persons)
+			throws IOException {
+		BufferedReader nameReader = new BufferedReader(new FileReader(
+				"names.txt"));
+		ArrayList<String> names = new ArrayList<>();
 		String line;
-		while ((line=nameReader.readLine())!=null) {
+		while ((line = nameReader.readLine()) != null) {
 			names.add(line);
 		}
 		nameReader.close();
 		nameReader = new BufferedReader(new FileReader("surnames.txt"));
-		ArrayList<String> surnames=new ArrayList<>();
-		while ((line=nameReader.readLine())!=null) {
+		ArrayList<String> surnames = new ArrayList<>();
+		while ((line = nameReader.readLine()) != null) {
 			surnames.add(line);
 		}
 		nameReader.close();
@@ -90,10 +111,9 @@ public class GameController {
 			p.surname = surnames.get(r.nextInt(surnames.size()));
 		}
 	}
-	
+
 	public void mainLoop() {
-		
-		
+
 		System.out.println("Enter name!");
 		Scanner scn = new Scanner(System.in);
 		chooseName(scn.next());
@@ -114,11 +134,9 @@ public class GameController {
 					System.out.println("Invalid input: " + line);
 					break;
 				}
-			}
-			catch (NoSuchElementException ex) {
+			} catch (NoSuchElementException ex) {
 				System.out.println("Invalid input: " + line);
-			}
-			finally {
+			} finally {
 				ln.close();
 			}
 		}
@@ -126,19 +144,14 @@ public class GameController {
 	}
 
 	public static void main(String[] args) throws IOException {
-		GameController gc=new GameController();
+		GameController gc = new GameController();
 		gc.mainLoop();
 		/*
-		ArrayList<Client> clients=new ArrayList<>();
-		clients.add(new Client());
-		clients.add(new Client());
-		Barman bm=new Barman();
-		ArrayList<Person> pl=new ArrayList<>();
-		pl.addAll(clients);
-		pl.add(bm);
-		generateNames(pl);
-		for (Person p : pl) {
-			System.out.println(p.name + " " + p.surname);
-		}*/
+		 * ArrayList<Client> clients=new ArrayList<>(); clients.add(new
+		 * Client()); clients.add(new Client()); Barman bm=new Barman();
+		 * ArrayList<Person> pl=new ArrayList<>(); pl.addAll(clients);
+		 * pl.add(bm); generateNames(pl); for (Person p : pl) {
+		 * System.out.println(p.name + " " + p.surname); }
+		 */
 	}
 }

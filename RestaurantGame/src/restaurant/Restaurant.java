@@ -19,9 +19,11 @@ public class Restaurant {
 
 	private int reputationPoints;
 
-	private ArrayList<Table> tables;
+	protected ArrayList<Table> tables;
 
 	protected ArrayList<Employee> employees;
+	
+	protected ArrayList<Waiter> waiters;
 
 	protected ArrayList<MenuItem> menuItems;
 
@@ -39,10 +41,12 @@ public class Restaurant {
 		employees = new ArrayList<>(5);
 		employees.add(new Chef());
 		employees.add(new Barman());
+		waiters = new ArrayList<>(3);
 		for (int i = 0; i < 3; ++i) {
-			employees.add(new Waiter());
+			waiters.add(new Waiter());
 		}
-		
+		employees.addAll(waiters);
+
 		for (int i = 0; i<5; i++){
 			menuItems.add(new MainDish());
 			menuItems.add(new Beverage());
