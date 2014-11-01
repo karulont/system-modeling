@@ -20,4 +20,10 @@ public class Barman extends Employee
 			break;
 		}
 	}
+	
+
+	@Override
+	public int getTrainingCost() {
+		return 1200;
+	}
 }

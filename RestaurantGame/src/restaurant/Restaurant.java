@@ -15,7 +15,7 @@ public class Restaurant {
 
 	private String city;
 
-	private int budget;
+	protected int budget;
 
 	private int reputationPoints;
 
@@ -78,10 +78,6 @@ public class Restaurant {
 	}
 
 	public void computeClientStatistics() {
-
-	}
-
-	public void payTraining(int amount) {
 
 	}
 

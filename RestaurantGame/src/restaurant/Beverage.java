@@ -12,7 +12,6 @@ public class Beverage extends MenuItem
 	{
 		switch (qualityLevel) {
 		case LOW:
-			price:
 				return 1;
 		case HIGH:
 			return 3;

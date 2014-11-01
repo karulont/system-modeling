@@ -28,4 +28,10 @@ public class Waiter extends Employee
 			break;
 		}
 	}
+	
+
+	@Override
+	public int getTrainingCost() {
+		return 800;
+	}
 }

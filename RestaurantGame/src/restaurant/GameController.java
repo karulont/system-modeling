@@ -38,8 +38,13 @@ public class GameController {
 		generateNames(persons);
 	}
 
-	public void trainEmployee(Employee employee) {
-		//restaurant.payTraining(amount);
+	public void trainEmployee(Employee employee) throws GameException {
+		int cost = employee.getTrainingCost();
+		if (restaurant.budget < cost) {
+			throw new GameException("Not enough funds!");
+		}
+		restaurant.budget-=cost;
+		employee.increaseExperience();
 	}
 
 	public void makeSelection(ArrayList<Integer> tablesPerWaiter)

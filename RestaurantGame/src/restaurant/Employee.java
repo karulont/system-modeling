@@ -10,9 +10,9 @@ public abstract class Employee extends Person
 		experience = Experience.LOW;
 	}
 	protected int salary;
-	
 	protected Experience experience;
 	
+	public abstract int getTrainingCost();
 	public abstract void computeSalary();
 	
 	public void increaseExperience( )
