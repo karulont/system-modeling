@@ -40,7 +40,7 @@ public class GameController {
 
 	}
 
-	private void generateNames(ArrayList<Person> persons) throws IOException {
+	private static void generateNames(ArrayList<Person> persons) throws IOException {
 		BufferedReader nameReader = new BufferedReader(new FileReader("names.txt"));
 		ArrayList<String> names=new ArrayList<>();
 		String line;
@@ -51,13 +51,27 @@ public class GameController {
 		nameReader = new BufferedReader(new FileReader("surnames.txt"));
 		ArrayList<String> surnames=new ArrayList<>();
 		while ((line=nameReader.readLine())!=null) {
-			names.add(line);
+			surnames.add(line);
 		}
 		nameReader.close();
 		Random r = new Random();
 		for (Person p : persons) {
 			p.name = names.get(r.nextInt(names.size()));
-			p.surname = names.get(r.nextInt(surnames.size()));
+			p.surname = surnames.get(r.nextInt(surnames.size()));
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		ArrayList<Client> clients=new ArrayList<>();
+		clients.add(new Client());
+		clients.add(new Client());
+		Barman bm=new Barman();
+		ArrayList<Person> pl=new ArrayList<>();
+		pl.addAll(clients);
+		pl.add(bm);
+		generateNames(pl);
+		for (Person p : pl) {
+			System.out.println(p.name + " " + p.surname);
 		}
 	}
 }
