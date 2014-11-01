@@ -4,16 +4,13 @@
 
 package restaurant;
 
-public class Employee extends Person
+public abstract class Employee extends Person
 {
 	protected int salary;
 	
 	protected Experience experience;
 	
-	public void computeSalary( )
-	{
-		
-	}
+	public abstract void computeSalary();
 	
 	public void increaseExperience( )
 	{
