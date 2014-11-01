@@ -16,6 +16,7 @@ public class GameController {
 	
 	public GameController() {
 		player = new Player();
+		restaurant = new Restaurant();
 	}
 	
 	private Restaurant restaurant;
@@ -28,8 +29,7 @@ public class GameController {
 		player.name = name;
 	}
 
-	public void startGame( ) throws IOException {
-		restaurant = new Restaurant();
+	public void startGame() throws IOException {
 		ArrayList<Person> persons = new ArrayList<Person>();
 		persons.addAll(restaurant.employees);
 		persons.addAll(clients);
@@ -44,12 +44,30 @@ public class GameController {
 
 	}
 
-	public void setDishesQuality( int highNo, int lowNo ) {
-		
+	public void setDishesQuality( int highNo) {
+		int hCount=0;
+
+		for(MenuItem e: restaurant.menuItems){
+
+			if(MainDish.class.isInstance(e)){
+				if(hCount++<highNo)
+					e.qualityLevel=Quality.HIGH;
+				else
+					e.qualityLevel=Quality.LOW;
+			}	
+		}
 	}
 
-	public void setBeveragesQuality( int highNo, int lowNo ) {
-
+	public void setBeveragesQuality( int highNo) {
+		int hCount=0;
+		for(MenuItem e: restaurant.menuItems){
+			if(Beverage.class.isInstance(e)){
+				if(hCount++<highNo)
+					e.qualityLevel=Quality.HIGH;
+				else
+					e.qualityLevel=Quality.LOW;
+			}	
+		}
 	}
 
 	public void setPrice( int lowDCost, int highDCost, int lowBCost, int highBCost ) {
@@ -97,6 +115,28 @@ public class GameController {
 		System.out.println("Enter name!");
 		Scanner scn = new Scanner(System.in);
 		chooseName(scn.next());
+		
+		System.out.println("Enter the number of high quality dishes");
+		setDishesQuality(Integer.parseInt(scn.next()));
+		
+		System.out.println("Enter the number of high quality beverages");
+		setBeveragesQuality(Integer.parseInt(scn.next()));
+
+		int[] costs  = new int[4];
+		System.out.println("Enter the cost of high quality dishes");
+		costs[0]=Integer.parseInt(scn.next());
+		
+		System.out.println("Enter the cost of low quality dishes");
+		costs[1]=Integer.parseInt(scn.next());
+		
+		System.out.println("Enter the cost of high quality beverages");
+		costs[2]=Integer.parseInt(scn.next());
+		
+		System.out.println("Enter the cost of low quality beverages");
+		costs[3]=Integer.parseInt(scn.next());
+		
+		setPrice(costs[0], costs[1], costs[2], costs[3]);
+		
 		boolean exit = false;
 		while (!exit) {
 			String line = scn.nextLine();

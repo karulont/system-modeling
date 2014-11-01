@@ -43,6 +43,7 @@ public class Restaurant {
 			employees.add(new Waiter());
 		}
 		
+		menuItems = new ArrayList<>(10);
 		for (int i = 0; i<5; i++){
 			menuItems.add(new MainDish());
 			menuItems.add(new Beverage());
