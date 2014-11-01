@@ -6,6 +6,9 @@ package restaurant;
 
 public class Waiter extends Employee
 {
+	
+	private Table tables;
+	
 	public void computeSalary( )
 	{
 		switch(experience) {

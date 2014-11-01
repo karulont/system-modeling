@@ -16,6 +16,18 @@ public class Restaurant
 	
 	private int reputationPoints;
 	
+	
+	private Table tables;
+	
+	
+	private Employee employees;
+	
+	
+	private MenuItem menuItems;
+	
+	
+	private Orders orders;
+	
 	public void paySuppliers( float amount )
 	{
 		

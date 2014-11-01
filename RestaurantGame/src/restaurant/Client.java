@@ -11,6 +11,9 @@ public class Client extends Person
 	
 	private String taxCode;
 	
+	
+	private Table table;
+	
 	public void isSatisfied( )
 	{
 		
