@@ -4,15 +4,14 @@
 
 package restaurant;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.Scanner;
 
 public class GameController {
 
@@ -43,12 +42,15 @@ public class GameController {
 		if (restaurant.budget < cost) {
 			throw new GameException("Not enough funds!");
 		}
-		restaurant.budget-=cost;
 		employee.increaseExperience();
+		restaurant.budget -= cost;
 	}
 
 	public void makeSelection(ArrayList<Integer> tablesPerWaiter)
 			throws GameException {
+		if (tablesPerWaiter.size() != 3) {
+			throw new GameException("Exactly three numbers should be present!");
+		}
 		for (Integer w : tablesPerWaiter) {
 			if (w > 3 || w < 0) {
 				throw new GameException(
@@ -72,48 +74,44 @@ public class GameController {
 
 	}
 
-	public void makeSelection( Waiter waiter, Table table ) {
+	public void setDishesQuality(int highNo) {
+		int hCount = 0;
 
-	}
+		for (MenuItem e : restaurant.menuItems) {
 
-	public void setDishesQuality( int highNo) {
-		int hCount=0;
-
-		for(MenuItem e: restaurant.menuItems){
-
-			if(MainDish.class.isInstance(e)){
-				if(hCount++<highNo)
-					e.qualityLevel=Quality.HIGH;
+			if (MainDish.class.isInstance(e)) {
+				if (hCount++ < highNo)
+					e.qualityLevel = Quality.HIGH;
 				else
-					e.qualityLevel=Quality.LOW;
-			}	
+					e.qualityLevel = Quality.LOW;
+			}
 		}
 	}
 
-	public void setBeveragesQuality( int highNo) {
-		int hCount=0;
-		for(MenuItem e: restaurant.menuItems){
-			if(Beverage.class.isInstance(e)){
-				if(hCount++<highNo)
-					e.qualityLevel=Quality.HIGH;
+	public void setBeveragesQuality(int highNo) {
+		int hCount = 0;
+		for (MenuItem e : restaurant.menuItems) {
+			if (Beverage.class.isInstance(e)) {
+				if (hCount++ < highNo)
+					e.qualityLevel = Quality.HIGH;
 				else
-					e.qualityLevel=Quality.LOW;
-			}	
+					e.qualityLevel = Quality.LOW;
+			}
 		}
 
 	}
 
-	public void setPrice( int lowDCost, int highDCost, int lowBCost, int highBCost ) {
-		
-		for(MenuItem e: restaurant.menuItems){
-			if(MainDish.class.isInstance(e)){
-				if(e.qualityLevel==Quality.LOW)
+	public void setPrice(int lowDCost, int highDCost, int lowBCost,
+			int highBCost) {
+
+		for (MenuItem e : restaurant.menuItems) {
+			if (MainDish.class.isInstance(e)) {
+				if (e.qualityLevel == Quality.LOW)
 					e.setPrice(lowDCost);
 				else
 					e.setPrice(highDCost);
-			}
-			else{
-				if(e.qualityLevel==Quality.LOW)
+			} else {
+				if (e.qualityLevel == Quality.LOW)
 					e.setPrice(lowBCost);
 				else
 					e.setPrice(highBCost);
@@ -149,28 +147,28 @@ public class GameController {
 		System.out.println("Enter name!");
 		Scanner scn = new Scanner(System.in);
 		chooseName(scn.next());
-		
+
 		System.out.println("Enter the number of high quality dishes");
 		setDishesQuality(Integer.parseInt(scn.next()));
-		
+
 		System.out.println("Enter the number of high quality beverages");
 		setBeveragesQuality(Integer.parseInt(scn.next()));
 
-		int[] costs  = new int[4];
+		int[] costs = new int[4];
 		System.out.println("Enter the cost of high quality dishes");
-		costs[0]=Integer.parseInt(scn.next());
-		
+		costs[0] = Integer.parseInt(scn.next());
+
 		System.out.println("Enter the cost of low quality dishes");
-		costs[1]=Integer.parseInt(scn.next());
-		
+		costs[1] = Integer.parseInt(scn.next());
+
 		System.out.println("Enter the cost of high quality beverages");
-		costs[2]=Integer.parseInt(scn.next());
-		
+		costs[2] = Integer.parseInt(scn.next());
+
 		System.out.println("Enter the cost of low quality beverages");
-		costs[3]=Integer.parseInt(scn.next());
-		
+		costs[3] = Integer.parseInt(scn.next());
+
 		setPrice(costs[0], costs[1], costs[2], costs[3]);
-		
+
 		boolean exit = false;
 		while (!exit) {
 			String line = scn.nextLine();
@@ -181,15 +179,24 @@ public class GameController {
 				case "exit":
 					exit = true;
 					break;
-				case "echo":
-					System.out.println(ln.next());
+				case "train":
+					Employee emp = findEmployee(ln.nextLine());
+					trainEmployee(emp);
 					break;
+				case "assign":
+					ArrayList<Integer> list= new ArrayList<>();
+					while (scn.hasNextInt()) {
+						list.add(new Integer(scn.nextInt()));
+					}
+					makeSelection(list);
 				default:
 					System.out.println("Invalid input: " + line);
 					break;
 				}
 			} catch (NoSuchElementException ex) {
 				System.out.println("Invalid input: " + line);
+			} catch (GameException e) {
+				System.out.println(e.getMessage());
 			} finally {
 				ln.close();
 			}
@@ -197,15 +204,25 @@ public class GameController {
 		scn.close();
 	}
 
+	private Employee findEmployee(String nextLine) throws GameException {
+		switch (nextLine) {
+		case "barman":
+			return restaurant.barman;
+		case "chef":
+			return restaurant.chef;
+		case "waiter1":
+			return restaurant.waiters.get(0);
+		case "waiter2":
+			return restaurant.waiters.get(1);
+		case "waiter3":
+			return restaurant.waiters.get(2);
+		default:
+			throw new GameException("Please choose either barman, chef, waiter1, waiter2 or waiter3.");
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		GameController gc = new GameController();
 		gc.mainLoop();
-		/*
-		 * ArrayList<Client> clients=new ArrayList<>(); clients.add(new
-		 * Client()); clients.add(new Client()); Barman bm=new Barman();
-		 * ArrayList<Person> pl=new ArrayList<>(); pl.addAll(clients);
-		 * pl.add(bm); generateNames(pl); for (Person p : pl) {
-		 * System.out.println(p.name + " " + p.surname); }
-		 */
 	}
 }

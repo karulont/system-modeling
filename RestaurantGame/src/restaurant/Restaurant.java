@@ -22,6 +22,8 @@ public class Restaurant {
 	protected ArrayList<Table> tables;
 
 	protected ArrayList<Employee> employees;
+	protected Barman barman;
+	protected Chef chef;
 	
 	protected ArrayList<Waiter> waiters;
 
@@ -39,14 +41,16 @@ public class Restaurant {
 			tables.add(new Table(i+1));
 		}
 		employees = new ArrayList<>(5);
-		employees.add(new Chef());
-		employees.add(new Barman());
+		barman = new Barman();
+		chef = new Chef();
+		employees.add(barman);
+		employees.add(chef);
 		waiters = new ArrayList<>(3);
 		for (int i = 0; i < 3; ++i) {
 			waiters.add(new Waiter());
 		}
 		employees.addAll(waiters);
-		
+
 		menuItems = new ArrayList<>(10);
 
 

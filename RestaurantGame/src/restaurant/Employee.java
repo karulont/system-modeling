@@ -15,7 +15,7 @@ public abstract class Employee extends Person
 	public abstract int getTrainingCost();
 	public abstract void computeSalary();
 	
-	public void increaseExperience( )
+	public void increaseExperience( ) throws GameException
 	{
 		switch(experience) {
 		case LOW:
@@ -23,6 +23,8 @@ public abstract class Employee extends Person
 			break;
 		case AVERAGE:
 			experience = Experience.HIGH;
+		case HIGH:
+			throw new GameException("Employee already at the highest level!");
 			default:
 				break;
 		}
