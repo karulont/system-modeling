@@ -70,11 +70,10 @@ public class GameController {
 		}
 	}
 
-	public void setDishesQuality(int highNo, int lowNo) {
-
-	}
-
-	public void setDishesQuality(int highNo) {
+	public void setDishesQuality (int highNo) throws GameException{
+		if(highNo > 5 || highNo < 0)
+			throw new GameException("Number of dishes not within limits!");
+		
 		int hCount = 0;
 
 		for (MenuItem e : restaurant.menuItems) {
@@ -88,7 +87,10 @@ public class GameController {
 		}
 	}
 
-	public void setBeveragesQuality(int highNo) {
+	public void setBeveragesQuality(int highNo) throws GameException{
+		if(highNo > 5 || highNo < 0)
+			throw new GameException("Number of beverages not within limits!");
+		
 		int hCount = 0;
 		for (MenuItem e : restaurant.menuItems) {
 			if (Beverage.class.isInstance(e)) {
@@ -147,27 +149,48 @@ public class GameController {
 		System.out.println("Enter name!");
 		Scanner scn = new Scanner(System.in);
 		chooseName(scn.next());
+		
+		boolean menuDefined = false;
+		while(!menuDefined){
+			String input = null;
+			try{
 
-		System.out.println("Enter the number of high quality dishes");
-		setDishesQuality(Integer.parseInt(scn.next()));
+				System.out.println("Enter the number of high quality dishes");
+				input = scn.next();
+				setDishesQuality(Integer.parseInt(input));
+				
+				System.out.println("Enter the number of high quality beverages");
+				input = scn.next();
+				setBeveragesQuality(Integer.parseInt(input));
+				
+				int[] costs = new int[4];
+				System.out.println("Enter the cost of high quality dishes");
+				input = scn.next();
+				costs[0] = Integer.parseInt(input);
 
-		System.out.println("Enter the number of high quality beverages");
-		setBeveragesQuality(Integer.parseInt(scn.next()));
+				System.out.println("Enter the cost of low quality dishes");
+				input = scn.next();
+				costs[1] = Integer.parseInt(input);
 
-		int[] costs = new int[4];
-		System.out.println("Enter the cost of high quality dishes");
-		costs[0] = Integer.parseInt(scn.next());
+				System.out.println("Enter the cost of high quality beverages");
+				input = scn.next();
+				costs[2] = Integer.parseInt(input);
 
-		System.out.println("Enter the cost of low quality dishes");
-		costs[1] = Integer.parseInt(scn.next());
+				System.out.println("Enter the cost of low quality beverages");
+				input = scn.next();
+				costs[3] = Integer.parseInt(input);
 
-		System.out.println("Enter the cost of high quality beverages");
-		costs[2] = Integer.parseInt(scn.next());
+				setPrice(costs[0], costs[1], costs[2], costs[3]);
+				
+				menuDefined = true;
+				
+			} catch(GameException e){
+				System.out.println(e.getMessage());
+			} catch (NumberFormatException ex){
+				System.out.println("Invalid input: "+input);
+			}
+		}
 
-		System.out.println("Enter the cost of low quality beverages");
-		costs[3] = Integer.parseInt(scn.next());
-
-		setPrice(costs[0], costs[1], costs[2], costs[3]);
 
 		boolean exit = false;
 		while (!exit) {
