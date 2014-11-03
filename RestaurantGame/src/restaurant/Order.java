@@ -4,8 +4,8 @@
 
 package restaurant;
 
-public class Orders {
-	public Orders(Client cl, Beverage bv, MainDish md, int day, int clSat) {
+public class Order {
+	public Order(Client cl, Beverage bv, MainDish md, int day, int clSat) {
 		client = cl;
 		beverage = bv;
 		dish = md;

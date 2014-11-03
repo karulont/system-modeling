@@ -29,7 +29,7 @@ public class Restaurant {
 	protected ArrayList<Beverage> beverages;
 	protected ArrayList<MainDish> maindishes;
 
-	protected ArrayList<Orders> orders;
+	protected ArrayList<Order> orders;
 
 	public Restaurant() {
 		name = "Sad Chef's inn";
@@ -65,7 +65,7 @@ public class Restaurant {
 
 	public void paySuppliers(int startDay) {
 		int sum = 0;
-		for (Orders o : orders) {
+		for (Order o : orders) {
 			if (o.date > startDay - 7) {
 				sum += o.beverage.computeProductionPrice();
 				sum += o.dish.computeProductionPrice();
@@ -110,62 +110,12 @@ public class Restaurant {
 		for (Table t : tables) {
 			if (t.waiter != null)
 				for (Client c : t.clients) {
-					int clientSatisfaction = 0;
 					Beverage b = beverages.get(ran.nextInt(beverages.size()));
 					MainDish d = maindishes.get(ran.nextInt(maindishes.size()));
 					budget += b.price;
 					budget += d.price;
-					double waiterThres = 0;
-					double barmanThres = 0;
-					double chefThres = 0;
-					switch (t.waiter.experience) {
-					case LOW:
-						waiterThres = 0.6;
-						break;
-					case AVERAGE:
-						waiterThres = 0.8;
-						break;
-					case HIGH:
-						waiterThres = 0.9;
-						break;
-					}
-					switch (barman.experience) {
-					case LOW:
-						barmanThres = 0.4;
-						break;
-					case AVERAGE:
-						barmanThres = 0.6;
-						break;
-					case HIGH:
-						barmanThres = 0.8;
-						break;
-					}
-					switch (chef.experience) {
-					case LOW:
-						chefThres = 0.4;
-						break;
-					case AVERAGE:
-						chefThres = 0.6;
-						break;
-					case HIGH:
-						chefThres = 0.8;
-						break;
-					}
-					if (b.qualityLevel == Quality.HIGH) {
-						barmanThres += 0.2;
-					}
-					if (d.qualityLevel == Quality.HIGH) {
-						chefThres += 0.2;
-					}
-					barmanThres -= 0.1 * ((b.price - b.computeProductionPrice()) % 3);
-					chefThres -= 0.1 * ((b.price - b.computeProductionPrice()) % 3);
-					clientSatisfaction += ran.nextDouble() > waiterThres ? -1
-							: 1;
-					clientSatisfaction += ran.nextDouble() > barmanThres ? -1
-							: 1;
-					clientSatisfaction += ran.nextDouble() > chefThres ? -1 : 1;
-					reputationPoints += clientSatisfaction;
-					orders.add(new Orders(c, b, d, day, clientSatisfaction));
+					Order o = processOrder(c, d, b, t, day);
+					orders.add(o);
 				}
 		}
 	}
@@ -174,8 +124,60 @@ public class Restaurant {
 
 	}
 
-	public void processOrder(MainDish dish, Beverage beverage, Table table) {
-
+	public Order processOrder(Client client, MainDish dish, Beverage beverage, Table table, int day) {
+		Random ran = new Random();
+		int clientSatisfaction = 0;
+		double waiterThres = 0;
+		double barmanThres = 0;
+		double chefThres = 0;
+		switch (table.waiter.experience) {
+		case LOW:
+			waiterThres = 0.6;
+			break;
+		case AVERAGE:
+			waiterThres = 0.8;
+			break;
+		case HIGH:
+			waiterThres = 0.9;
+			break;
+		}
+		switch (barman.experience) {
+		case LOW:
+			barmanThres = 0.4;
+			break;
+		case AVERAGE:
+			barmanThres = 0.6;
+			break;
+		case HIGH:
+			barmanThres = 0.8;
+			break;
+		}
+		switch (chef.experience) {
+		case LOW:
+			chefThres = 0.4;
+			break;
+		case AVERAGE:
+			chefThres = 0.6;
+			break;
+		case HIGH:
+			chefThres = 0.8;
+			break;
+		}
+		if (beverage.qualityLevel.equals(Quality.HIGH)) {
+			barmanThres += 0.2;
+		}
+		if (dish.qualityLevel.equals(Quality.HIGH)) {
+			chefThres += 0.2;
+		}
+		barmanThres -= 0.1 * ((beverage.price - beverage.computeProductionPrice()) % 3);
+		chefThres -= 0.1 * ((dish.price - dish.computeProductionPrice()) % 3);
+		clientSatisfaction += ran.nextDouble() > waiterThres ? -1
+				: 1;
+		clientSatisfaction += ran.nextDouble() > barmanThres ? -1
+				: 1;
+		clientSatisfaction += ran.nextDouble() > chefThres ? -1 : 1;
+		reputationPoints += clientSatisfaction;
+		return new Order(client, beverage, dish, day, clientSatisfaction);
 	}
 
 }

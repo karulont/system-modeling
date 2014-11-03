@@ -52,7 +52,7 @@ public class GameController {
 			return false;
 		}
 		System.out.println("Budget after day " + day + " is "
-				+ restaurant.budget);
+				+ restaurant.budget + " reputation is " + restaurant.reputationPoints);
 		day++;
 		return restaurant.budget > 0;
 	}
