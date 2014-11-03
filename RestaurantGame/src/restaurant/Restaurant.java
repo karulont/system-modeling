@@ -55,17 +55,17 @@ public class Restaurant {
 		employees.addAll(waiters);
 
 		beverages = new ArrayList<>(5);
-		beverages.add(new Beverage("Milk", 3));
-		beverages.add(new Beverage("Milk", 3));
-		beverages.add(new Beverage("Milk", 3));
-		beverages.add(new Beverage("Milk", 3));
-		beverages.add(new Beverage("Milk", 3));
+		beverages.add(new Beverage("Milk", 330));
+		beverages.add(new Beverage("Tea", 275));
+		beverages.add(new Beverage("Diet Coke", 500));
+		beverages.add(new Beverage("Orange Juice", 330));
+		beverages.add(new Beverage("Coffe", 275));
 		maindishes = new ArrayList<>(5);
-		maindishes.add(new MainDish("Steak", 3));
-		maindishes.add(new MainDish("Steak", 3));
-		maindishes.add(new MainDish("Steak", 3));
-		maindishes.add(new MainDish("Steak", 3));
-		maindishes.add(new MainDish("Steak", 3));
+		maindishes.add(new MainDish("Steak", 400));
+		maindishes.add(new MainDish("Soup", 240));
+		maindishes.add(new MainDish("Club sandwich", 200));
+		maindishes.add(new MainDish("Grill salad", 150));
+		maindishes.add(new MainDish("Salmon", 300));
 
 		orders = new ArrayList<>();
 	}
