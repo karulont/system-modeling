@@ -104,7 +104,7 @@ public class GameController {
 			Player p = rankings.get(i);
 			rankWriter.write(p.name);
 			rankWriter.write(",");
-			rankWriter.write(p.score);
+			rankWriter.write(Integer.toString(p.score));
 			rankWriter.newLine();
 			System.out.println(p.name + "\t " + p.score);
 		}
@@ -178,16 +178,22 @@ public class GameController {
 	public void setPrice( int lowDCost, int highDCost, int lowBCost, int highBCost ) {
 
 		for (MainDish e : restaurant.maindishes) {
-			if (e.qualityLevel == Quality.LOW)
+			if (e.qualityLevel.equals(Quality.LOW))
 				e.setPrice(lowDCost);
 			else
 				e.setPrice(highDCost);
 		}
 		for (Beverage b : restaurant.beverages) {
-			if (b.qualityLevel == Quality.LOW)
+			if (b.qualityLevel.equals(Quality.LOW))
 				b.setPrice(lowBCost);
 			else
 				b.setPrice(highBCost);
+		}
+	}
+	
+	private void printClientStatistics() {
+		for (Client c : clients) {
+			c.computeStatistics();
 		}
 	}
 
@@ -290,6 +296,9 @@ public class GameController {
 						break;
 					case "day":
 						run = simulateDay();
+						break;
+					case "stat":
+						printClientStatistics();
 						break;
 					default:
 						System.out.println("Invalid input: " + line);
