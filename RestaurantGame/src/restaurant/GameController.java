@@ -72,44 +72,10 @@ public class GameController {
 	}
 
 	private void ProcessRankings( ) throws IOException {
-		File f = new File("rankings.txt");
-		ArrayList<Player> rankings = new ArrayList<>();
-		if (f.exists()) {
-			BufferedReader rankingsReader = new BufferedReader(
-					new FileReader(f));
-			String line;
-			while ((line = rankingsReader.readLine()) != null) {
-				if (line.equals("")) {
-					continue;
-				}
-				String[] ps = line.split(",");
-				rankings.add(new Player(ps[0], Integer.parseInt(ps[1])));
-			}
-			rankingsReader.close();
-		}
-		for (int i = 0; i < rankings.size(); ++i) {
-			if (player.score > rankings.get(i).score) {
-				rankings.add(i, player);
-				break;
-			}
-		}
-		if (rankings.size() == 0) {
-			rankings.add(player);
-		}
-
-		System.out.println("Rankings are:");
-
-		BufferedWriter rankWriter = new BufferedWriter(new FileWriter(f));
-		for (int i = 0; i < rankings.size() && i < 10; ++i) {
-			Player p = rankings.get(i);
-			rankWriter.write(p.name);
-			rankWriter.write(",");
-			rankWriter.write(Integer.toString(p.score));
-			rankWriter.newLine();
-			System.out.println(p.name + "\t " + p.score);
-		}
-		rankWriter.flush();
-		rankWriter.close();
+		RankingList ranks = new RankingList();
+		ranks.load();
+		ranks.add(player);
+		ranks.printAndSave();
 	}
 
 	public void trainEmployee( Employee employee ) throws GameException {
