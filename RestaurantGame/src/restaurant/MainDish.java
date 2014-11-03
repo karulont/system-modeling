@@ -5,7 +5,12 @@
 package restaurant;
 
 public class MainDish extends MenuItem {
-	private int calorieCount;
+	public MainDish(String name, int calories) {
+		super(name);
+		calorieCount = calories;
+	}
+
+	protected int calorieCount;
 
 	public int computeProductionPrice() {
 		switch (qualityLevel) {

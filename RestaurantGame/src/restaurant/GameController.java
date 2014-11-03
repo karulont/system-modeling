@@ -47,10 +47,14 @@ public class GameController {
 				restaurant.budget -= e.salary;
 			}
 			restaurant.paySuppliers(day);
+			System.out.println("End of week, paying supplies and salaries.");
 		}
 		if (day == 30) {
 			// end of game
 			player.score = restaurant.budget - 4000;
+			System.out
+					.println("30 days have passed, game is over, your final score is "
+							+ player.score);
 			ProcessRankings();
 			return false;
 		}
@@ -58,14 +62,21 @@ public class GameController {
 				+ restaurant.budget + " reputation is "
 				+ restaurant.reputationPoints);
 		day++;
-		return restaurant.budget > 0;
+		if (restaurant.budget > 0) {
+			return true;
+		}
+		else {
+			System.out.println("Restaraunt's budget is negative, game over.");
+			return false;
+		}
 	}
 
 	private void ProcessRankings() throws IOException {
 		File f = new File("rankings.txt");
 		ArrayList<Player> rankings = new ArrayList<>();
 		if (f.exists()) {
-			BufferedReader rankingsReader = new BufferedReader(new FileReader(f));
+			BufferedReader rankingsReader = new BufferedReader(
+					new FileReader(f));
 			String line;
 			while ((line = rankingsReader.readLine()) != null) {
 				if (line.equals("")) {
@@ -85,9 +96,9 @@ public class GameController {
 		if (rankings.size() == 0) {
 			rankings.add(player);
 		}
-		
+
 		System.out.println("Rankings are:");
-		
+
 		BufferedWriter rankWriter = new BufferedWriter(new FileWriter(f));
 		for (int i = 0; i < rankings.size() && i < 10; ++i) {
 			Player p = rankings.get(i);

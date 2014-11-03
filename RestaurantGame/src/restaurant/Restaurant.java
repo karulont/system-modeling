@@ -7,6 +7,8 @@ package restaurant;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.omg.CORBA.RepositoryIdHelper;
+
 public class Restaurant {
 	private String name;
 
@@ -53,13 +55,18 @@ public class Restaurant {
 		employees.addAll(waiters);
 
 		beverages = new ArrayList<>(5);
+		beverages.add(new Beverage("Milk", 3));
+		beverages.add(new Beverage("Milk", 3));
+		beverages.add(new Beverage("Milk", 3));
+		beverages.add(new Beverage("Milk", 3));
+		beverages.add(new Beverage("Milk", 3));
 		maindishes = new ArrayList<>(5);
+		maindishes.add(new MainDish("Steak", 3));
+		maindishes.add(new MainDish("Steak", 3));
+		maindishes.add(new MainDish("Steak", 3));
+		maindishes.add(new MainDish("Steak", 3));
+		maindishes.add(new MainDish("Steak", 3));
 
-		for (int i = 0; i < 5; i++) {
-			maindishes.add(new MainDish());
-			beverages.add(new Beverage());
-		}
-		
 		orders = new ArrayList<>();
 	}
 
@@ -98,7 +105,7 @@ public class Restaurant {
 			t.clients.add(chosenClients.remove(chosenClients.size() - 1));
 		}
 	}
-	
+
 	public void clearTables() {
 		for (Table t : tables) {
 			t.clients.clear();
@@ -108,8 +115,12 @@ public class Restaurant {
 	public void serviceTables(int day) {
 		Random ran = new Random();
 		for (Table t : tables) {
-			if (t.waiter != null)
-				for (Client c : t.clients) {
+			for (Client c : t.clients) {
+				if (t.waiter == null) {
+					System.out.println(c + " is sitting at " + t
+							+ " and does not have a waiter!");
+					reputationPoints -= 3;
+				} else {
 					Beverage b = beverages.get(ran.nextInt(beverages.size()));
 					MainDish d = maindishes.get(ran.nextInt(maindishes.size()));
 					budget += b.price;
@@ -117,6 +128,7 @@ public class Restaurant {
 					Order o = processOrder(c, d, b, t, day);
 					orders.add(o);
 				}
+			}
 		}
 	}
 
@@ -124,7 +136,8 @@ public class Restaurant {
 
 	}
 
-	public Order processOrder(Client client, MainDish dish, Beverage beverage, Table table, int day) {
+	public Order processOrder(Client client, MainDish dish, Beverage beverage,
+			Table table, int day) {
 		Random ran = new Random();
 		int clientSatisfaction = 0;
 		double waiterThres = 0;
@@ -169,13 +182,15 @@ public class Restaurant {
 		if (dish.qualityLevel.equals(Quality.HIGH)) {
 			chefThres += 0.2;
 		}
-		barmanThres -= 0.1 * ((beverage.price - beverage.computeProductionPrice()) % 3);
+		barmanThres -= 0.1 * ((beverage.price - beverage
+				.computeProductionPrice()) % 3);
 		chefThres -= 0.1 * ((dish.price - dish.computeProductionPrice()) % 3);
-		clientSatisfaction += ran.nextDouble() > waiterThres ? -1
-				: 1;
-		clientSatisfaction += ran.nextDouble() > barmanThres ? -1
-				: 1;
+		clientSatisfaction += ran.nextDouble() > waiterThres ? -1 : 1;
+		clientSatisfaction += ran.nextDouble() > barmanThres ? -1 : 1;
 		clientSatisfaction += ran.nextDouble() > chefThres ? -1 : 1;
+		System.out.println(client + " at " + table + " ordered " + dish
+				+ " with " + beverage + " and gives " + clientSatisfaction
+				+ " reputation points.");
 		reputationPoints += clientSatisfaction;
 		return new Order(client, beverage, dish, day, clientSatisfaction);
 	}

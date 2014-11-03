@@ -29,6 +29,7 @@ public abstract class Employee extends Person
 			default:
 				break;
 		}
+		System.out.println(this + " level is now "+ experience +".");
 	}
 	
 	

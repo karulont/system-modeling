@@ -20,4 +20,11 @@ public class Table {
 		waiter.tables.add(this);
 		this.waiter = waiter;
 	}
+
+	@Override
+	public String toString() {
+		return "table " + number;
+	}
+	
+	
 }
