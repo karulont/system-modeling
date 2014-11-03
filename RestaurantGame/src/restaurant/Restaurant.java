@@ -17,7 +17,7 @@ public class Restaurant {
 
 	protected int budget;
 
-	private int reputationPoints;
+	protected int reputationPoints;
 
 	protected ArrayList<Table> tables;
 
@@ -36,6 +36,7 @@ public class Restaurant {
 		address = "Ivory road, 45";
 		city = "Burgsburg";
 		budget = 10000;
+		reputationPoints = 15;
 		tables = new ArrayList<>(9);
 		for (int i = 0; i < 9; ++i) {
 			tables.add(new Table(i+1));

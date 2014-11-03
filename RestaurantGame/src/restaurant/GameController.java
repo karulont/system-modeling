@@ -14,23 +14,42 @@ import java.util.Scanner;
 
 public class GameController {
 
-	public GameController() {
-		player = new Player();
-		restaurant = new Restaurant();
-	}
-
 	private Restaurant restaurant;
 
 	private Player player;
 
 	private ArrayList<Client> clients;
 
+	private int day = 1;
+
+	public GameController() {
+		player = new Player();
+		restaurant = new Restaurant();
+	}
+	
 	public void chooseName(String name) {
 		player.name = name;
 	}
 	
-	public void simulateDay() {
+	public boolean simulateDay() {
+		// every day stuff
 		
+		// special cases
+		if (day == 7 || day == 14 || day == 21 || day == 28) {
+			// pay salary
+			for (Employee e : restaurant.employees) {
+				e.computeSalary();
+				restaurant.budget -= e.salary;
+			}
+		}
+		if (day == 30) {
+			// end of game
+			
+			return false;
+		}
+		System.out.println("Budget after day " + day + " is " + restaurant.budget);
+		day++;
+		return restaurant.budget > 0;
 	}
 
 	public void trainEmployee(Employee employee) throws GameException {
