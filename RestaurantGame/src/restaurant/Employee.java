@@ -23,6 +23,7 @@ public abstract class Employee extends Person
 			break;
 		case AVERAGE:
 			experience = Experience.HIGH;
+			break;
 		case HIGH:
 			throw new GameException("Employee already at the highest level!");
 			default:

@@ -26,14 +26,17 @@ public class GameController {
 		player = new Player();
 		restaurant = new Restaurant();
 	}
-	
+
 	public void chooseName(String name) {
 		player.name = name;
 	}
-	
+
 	public boolean simulateDay() {
 		// every day stuff
-		
+		restaurant.populateTables(clients);
+		restaurant.serviceTables(day);
+		restaurant.clearTables();
+
 		// special cases
 		if (day == 7 || day == 14 || day == 21 || day == 28) {
 			// pay salary
@@ -41,13 +44,15 @@ public class GameController {
 				e.computeSalary();
 				restaurant.budget -= e.salary;
 			}
+			restaurant.paySuppliers(day);
 		}
 		if (day == 30) {
 			// end of game
-			
+
 			return false;
 		}
-		System.out.println("Budget after day " + day + " is " + restaurant.budget);
+		System.out.println("Budget after day " + day + " is "
+				+ restaurant.budget);
 		day++;
 		return restaurant.budget > 0;
 	}
@@ -75,6 +80,9 @@ public class GameController {
 		for (Waiter w : restaurant.waiters) {
 			w.tables.clear();
 		}
+		for (Table t : restaurant.tables) {
+			t.waiter = null;
+		}
 		ArrayList<Table> tables = new ArrayList<>(restaurant.tables);
 		Random ran = new Random();
 		for (int i = 0; i < 3; ++i) {
@@ -85,35 +93,30 @@ public class GameController {
 		}
 	}
 
-	public void setDishesQuality (int highNo) throws GameException{
-		if(highNo > 5 || highNo < 0)
+	public void setDishesQuality(int highNo) throws GameException {
+		if (highNo > 5 || highNo < 0)
 			throw new GameException("Number of dishes not within limits!");
-		
+
 		int hCount = 0;
 
-		for (MenuItem e : restaurant.menuItems) {
-
-			if (MainDish.class.isInstance(e)) {
-				if (hCount++ < highNo)
-					e.qualityLevel = Quality.HIGH;
-				else
-					e.qualityLevel = Quality.LOW;
-			}
+		for (MainDish d : restaurant.maindishes) {
+			if (hCount++ < highNo)
+				d.qualityLevel = Quality.HIGH;
+			else
+				d.qualityLevel = Quality.LOW;
 		}
 	}
 
-	public void setBeveragesQuality(int highNo) throws GameException{
-		if(highNo > 5 || highNo < 0)
+	public void setBeveragesQuality(int highNo) throws GameException {
+		if (highNo > 5 || highNo < 0)
 			throw new GameException("Number of beverages not within limits!");
-		
+
 		int hCount = 0;
-		for (MenuItem e : restaurant.menuItems) {
-			if (Beverage.class.isInstance(e)) {
-				if (hCount++ < highNo)
-					e.qualityLevel = Quality.HIGH;
-				else
-					e.qualityLevel = Quality.LOW;
-			}
+		for (Beverage b : restaurant.beverages) {
+			if (hCount++ < highNo)
+				b.qualityLevel = Quality.HIGH;
+			else
+				b.qualityLevel = Quality.LOW;
 		}
 
 	}
@@ -121,18 +124,17 @@ public class GameController {
 	public void setPrice(int lowDCost, int highDCost, int lowBCost,
 			int highBCost) {
 
-		for (MenuItem e : restaurant.menuItems) {
-			if (MainDish.class.isInstance(e)) {
-				if (e.qualityLevel == Quality.LOW)
-					e.setPrice(lowDCost);
-				else
-					e.setPrice(highDCost);
-			} else {
-				if (e.qualityLevel == Quality.LOW)
-					e.setPrice(lowBCost);
-				else
-					e.setPrice(highBCost);
-			}
+		for (MainDish e : restaurant.maindishes) {
+			if (e.qualityLevel == Quality.LOW)
+				e.setPrice(lowDCost);
+			else
+				e.setPrice(highDCost);
+		}
+		for (Beverage b : restaurant.beverages) {
+			if (b.qualityLevel == Quality.LOW)
+				b.setPrice(lowBCost);
+			else
+				b.setPrice(highBCost);
 		}
 	}
 
@@ -164,92 +166,92 @@ public class GameController {
 		System.out.println("Enter name!");
 		Scanner scn = new Scanner(System.in);
 		chooseName(scn.next());
-		
+
 		ArrayList<Person> persons = new ArrayList<Person>();
 		persons.addAll(restaurant.employees);
-//		persons.addAll(clients);
+		// persons.addAll(clients);
 		generateNames(persons);
-		
 
 		boolean menuDefined = false;
-		while(!menuDefined){
-			String input = null;
-			try{
+		while (!menuDefined) {
+			try {
 
 				System.out.println("Enter the number of high quality dishes");
-				input = scn.next();
-				setDishesQuality(Integer.parseInt(input));
-				
-				System.out.println("Enter the number of high quality beverages");
-				input = scn.next();
-				setBeveragesQuality(Integer.parseInt(input));
-				
+				setDishesQuality(scn.nextInt());
+
+				System.out
+						.println("Enter the number of high quality beverages");
+				setBeveragesQuality(scn.nextInt());
+
 				int[] costs = new int[4];
 				System.out.println("Enter the cost of high quality dishes");
-				input = scn.next();
-				costs[0] = Integer.parseInt(input);
+				costs[0] = scn.nextInt();
 
 				System.out.println("Enter the cost of low quality dishes");
-				input = scn.next();
-				costs[1] = Integer.parseInt(input);
+				costs[1] = scn.nextInt();
 
 				System.out.println("Enter the cost of high quality beverages");
-				input = scn.next();
-				costs[2] = Integer.parseInt(input);
+				costs[2] = scn.nextInt();
 
 				System.out.println("Enter the cost of low quality beverages");
-				input = scn.next();
-				costs[3] = Integer.parseInt(input);
+				costs[3] = scn.nextInt();
 
 				setPrice(costs[0], costs[1], costs[2], costs[3]);
-				
+
 				menuDefined = true;
-				
-			} catch(GameException e){
-				System.out.println(e.getMessage());
-			} catch (NumberFormatException ex){
-				System.out.println("Invalid input: "+input);
-			}
-		}
 
-
-		boolean exit = false;
-		while (!exit) {
-			String line = scn.nextLine();
-			Scanner ln = new Scanner(line);
-			try {
-				String token = ln.next();
-				switch (token) {
-				case "exit":
-					exit = true;
-					break;
-				case "train":
-					Employee emp = findEmployee(ln.nextLine());
-					trainEmployee(emp);
-					break;
-				case "assign":
-					ArrayList<Integer> list= new ArrayList<>();
-					while (scn.hasNextInt()) {
-						list.add(new Integer(scn.nextInt()));
-					}
-					makeSelection(list);
-					break;
-				case "day":
-					simulateDay();
-					break;
-				default:
-					System.out.println("Invalid input: " + line);
-					break;
-				}
-			} catch (NoSuchElementException ex) {
-				System.out.println("Invalid input: " + line);
 			} catch (GameException e) {
 				System.out.println(e.getMessage());
-			} finally {
-				ln.close();
+			} catch (NumberFormatException ex) {
+				System.out.println("Invalid input");
 			}
 		}
-		scn.close();
+
+		try {
+			boolean run = true;
+			while (run) {
+				String line = scn.nextLine();
+				if (line == "") {
+					continue;
+				}
+				Scanner ln = new Scanner(line);
+				try {
+					String token = ln.next();
+					switch (token) {
+					case "exit":
+						run = false;
+						break;
+					case "train":
+						Employee emp = findEmployee(ln.next());
+						trainEmployee(emp);
+						break;
+					case "assign":
+						ArrayList<Integer> list = new ArrayList<>();
+						while (ln.hasNextInt()) {
+							list.add(new Integer(ln.nextInt()));
+						}
+						makeSelection(list);
+						break;
+					case "day":
+						run = simulateDay();
+						break;
+					default:
+						System.out.println("Invalid input: " + line);
+						break;
+					}
+				} catch (NoSuchElementException ex) {
+					System.out.println("Invalid input: " + line);
+				} catch (GameException e) {
+					System.out.println(e.getMessage());
+				} finally {
+					ln.close();
+				}
+			}
+		} catch (NoSuchElementException ex) {
+			ex.printStackTrace();
+		} finally {
+			scn.close();
+		}
 	}
 
 	private Employee findEmployee(String nextLine) throws GameException {
@@ -265,12 +267,27 @@ public class GameController {
 		case "waiter3":
 			return restaurant.waiters.get(2);
 		default:
-			throw new GameException("Please choose either barman, chef, waiter1, waiter2 or waiter3.");
+			throw new GameException(
+					"Please choose either barman, chef, waiter1, waiter2 or waiter3.");
 		}
 	}
 
 	public static void main(String[] args) throws IOException {
 		GameController gc = new GameController();
 		gc.startGame();
+	}
+
+	public static <E> ArrayList<E> getRandomElements(ArrayList<E> original,
+			int count) {
+		ArrayList<Integer> indexes = new ArrayList<>();
+		for (int i = 0; i < original.size(); ++i) {
+			indexes.add(new Integer(i));
+		}
+		ArrayList<E> result = new ArrayList<>(count);
+		Random ran = new Random();
+		for (int i = 0; i < count; ++i) {
+			result.add(original.get(indexes.remove(ran.nextInt(indexes.size()))));
+		}
+		return result;
 	}
 }

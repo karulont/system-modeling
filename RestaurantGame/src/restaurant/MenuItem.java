@@ -10,7 +10,7 @@ public abstract class MenuItem
 	
 	protected Quality qualityLevel;
 	
-	protected float price;
+	protected int price;
 	
 	public abstract int computeProductionPrice( );
 	

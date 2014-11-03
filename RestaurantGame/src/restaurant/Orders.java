@@ -4,15 +4,22 @@
 
 package restaurant;
 
-import java.util.Date;
+public class Orders {
+	public Orders(Client cl, Beverage bv, MainDish md, int day, int clSat) {
+		client = cl;
+		beverage = bv;
+		dish = md;
+		date = day;
+		clientSatisfaction = clSat;
+	}
 
-public class Orders
-{
-	private Date time;
-	
-	private String orderNo;
-	
-	private int clientSatisfaction;
-	
-	
+	protected int date;
+
+	protected String orderNo;
+
+	protected int clientSatisfaction;
+	protected Client client;
+	protected Beverage beverage;
+	protected MainDish dish;
+
 }
