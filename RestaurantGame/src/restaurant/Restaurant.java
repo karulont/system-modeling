@@ -59,6 +59,8 @@ public class Restaurant {
 			maindishes.add(new MainDish());
 			beverages.add(new Beverage());
 		}
+		
+		orders = new ArrayList<>();
 	}
 
 	public void paySuppliers(int startDay) {

@@ -87,8 +87,8 @@ public class GameController {
 		Random ran = new Random();
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < tablesPerWaiter.get(i); ++j) {
-				restaurant.waiters.get(i).tables.add(tables.remove(ran
-						.nextInt(tables.size())));
+				tables.remove(ran.nextInt(tables.size())).assignToWaiter(
+						restaurant.waiters.get(i));
 			}
 		}
 	}
@@ -167,9 +167,13 @@ public class GameController {
 		Scanner scn = new Scanner(System.in);
 		chooseName(scn.next());
 
+		clients = new ArrayList<>(18);
+		for (int i = 0; i < 18; ++i) {
+			clients.add(new Client());
+		}
 		ArrayList<Person> persons = new ArrayList<Person>();
 		persons.addAll(restaurant.employees);
-		// persons.addAll(clients);
+		persons.addAll(clients);
 		generateNames(persons);
 
 		boolean menuDefined = false;
