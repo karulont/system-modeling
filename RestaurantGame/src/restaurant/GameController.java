@@ -7,7 +7,6 @@ package restaurant;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -29,12 +28,9 @@ public class GameController {
 	public void chooseName(String name) {
 		player.name = name;
 	}
-
-	public void startGame() throws IOException {
-		ArrayList<Person> persons = new ArrayList<Person>();
-		persons.addAll(restaurant.employees);
-		persons.addAll(clients);
-		generateNames(persons);
+	
+	public void simulateDay() {
+		
 	}
 
 	public void trainEmployee(Employee employee) throws GameException {
@@ -144,12 +140,18 @@ public class GameController {
 		}
 	}
 
-	public void mainLoop() {
+	public void startGame() throws IOException {
 
 		System.out.println("Enter name!");
 		Scanner scn = new Scanner(System.in);
 		chooseName(scn.next());
 		
+		ArrayList<Person> persons = new ArrayList<Person>();
+		persons.addAll(restaurant.employees);
+//		persons.addAll(clients);
+		generateNames(persons);
+		
+
 		boolean menuDefined = false;
 		while(!menuDefined){
 			String input = null;
@@ -212,6 +214,10 @@ public class GameController {
 						list.add(new Integer(scn.nextInt()));
 					}
 					makeSelection(list);
+					break;
+				case "day":
+					simulateDay();
+					break;
 				default:
 					System.out.println("Invalid input: " + line);
 					break;
@@ -246,6 +252,6 @@ public class GameController {
 
 	public static void main(String[] args) throws IOException {
 		GameController gc = new GameController();
-		gc.mainLoop();
+		gc.startGame();
 	}
 }
