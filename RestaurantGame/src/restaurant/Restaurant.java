@@ -8,12 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Restaurant {
-	private String name;
-
-	private String address;
-
-	private String city;
-
 	protected int budget;
 
 	protected int reputationPoints;
@@ -32,9 +26,6 @@ public class Restaurant {
 	protected ArrayList<Order> orders;
 
 	public Restaurant() {
-		name = "Sad Chef's inn";
-		address = "Ivory road, 45";
-		city = "Burgsburg";
 		budget = 10000;
 		reputationPoints = 15;
 		tables = new ArrayList<>(9);
