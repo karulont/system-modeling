@@ -23,7 +23,7 @@ public class Barman extends Employee
 	
 
 	@Override
-	public int getTrainingCost() {
+	public int getTrainingCost( ) {
 		return 1200;
 	}
 }

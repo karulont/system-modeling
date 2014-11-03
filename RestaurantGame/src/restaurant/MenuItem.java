@@ -12,9 +12,15 @@ public abstract class MenuItem
 	
 	protected int price;
 	
+	
+	public MenuItem( )
+	{
+		
+	}
+	
 	public abstract int computeProductionPrice( );
 	
-	public MenuItem(String name){
+	public MenuItem( String name ){
 		this.name = name;
 	}
 	
@@ -24,7 +30,7 @@ public abstract class MenuItem
 	}
 
 	@Override
-	public String toString() {
+	public String toString( ) {
 		// TODO Auto-generated method stub
 		return name;
 	}

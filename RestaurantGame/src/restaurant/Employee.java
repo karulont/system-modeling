@@ -6,14 +6,16 @@ package restaurant;
 
 public abstract class Employee extends Person
 {
-	public Employee() {
+	public Employee( ) {
 		experience = Experience.LOW;
 	}
 	protected int salary;
 	protected Experience experience;
 	
-	public abstract int getTrainingCost();
-	public abstract void computeSalary();
+	
+	
+public abstract int getTrainingCost( );
+	public abstract void computeSalary( );
 	
 	public void increaseExperience( ) throws GameException
 	{
@@ -30,7 +32,5 @@ public abstract class Employee extends Person
 				break;
 		}
 		System.out.println(this + " level is now "+ experience +".");
-	}
-	
-	
+	}	
 }

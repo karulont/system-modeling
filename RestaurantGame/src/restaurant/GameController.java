@@ -4,16 +4,16 @@
 
 package restaurant;
 
-import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.io.BufferedWriter;
-import java.io.File;
+import java.util.Random;
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.File;
+import java.util.Scanner;
+import java.util.NoSuchElementException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.Scanner;
 
 public class GameController {
 
@@ -25,15 +25,15 @@ public class GameController {
 
 	private int day = 1;
 
-	public GameController() {
+	public GameController( ) {
 		restaurant = new Restaurant();
 	}
 
-	public void chooseName(String name) {
+	public void chooseName( String name ) {
 		player = new Player(name, 0);
 	}
 
-	public boolean simulateDay() throws GameException, IOException {
+	public boolean simulateDay( ) throws GameException, IOException {
 		// every day stuff
 		restaurant.populateTables(clients);
 		restaurant.serviceTables(day);
@@ -71,7 +71,7 @@ public class GameController {
 		}
 	}
 
-	private void ProcessRankings() throws IOException {
+	private void ProcessRankings( ) throws IOException {
 		File f = new File("rankings.txt");
 		ArrayList<Player> rankings = new ArrayList<>();
 		if (f.exists()) {
@@ -112,7 +112,7 @@ public class GameController {
 		rankWriter.close();
 	}
 
-	public void trainEmployee(Employee employee) throws GameException {
+	public void trainEmployee( Employee employee ) throws GameException {
 		int cost = employee.getTrainingCost();
 		if (restaurant.budget < cost) {
 			throw new GameException("Not enough funds!");
@@ -121,8 +121,7 @@ public class GameController {
 		restaurant.budget -= cost;
 	}
 
-	public void makeSelection(ArrayList<Integer> tablesPerWaiter)
-			throws GameException {
+	public void makeSelection( ArrayList<Integer> tablesPerWaiter ) throws GameException {
 		if (tablesPerWaiter.size() != 3) {
 			throw new GameException("Exactly three numbers should be present!");
 		}
@@ -148,7 +147,7 @@ public class GameController {
 		}
 	}
 
-	public void setDishesQuality(int highNo) throws GameException {
+	public void setDishesQuality( int highNo ) throws GameException {
 		if (highNo > 5 || highNo < 0)
 			throw new GameException("Number of dishes not within limits!");
 
@@ -162,7 +161,7 @@ public class GameController {
 		}
 	}
 
-	public void setBeveragesQuality(int highNo) throws GameException {
+	public void setBeveragesQuality( int highNo ) throws GameException {
 		if (highNo > 5 || highNo < 0)
 			throw new GameException("Number of beverages not within limits!");
 
@@ -176,8 +175,7 @@ public class GameController {
 
 	}
 
-	public void setPrice(int lowDCost, int highDCost, int lowBCost,
-			int highBCost) {
+	public void setPrice( int lowDCost, int highDCost, int lowBCost, int highBCost ) {
 
 		for (MainDish e : restaurant.maindishes) {
 			if (e.qualityLevel == Quality.LOW)
@@ -193,8 +191,7 @@ public class GameController {
 		}
 	}
 
-	private static void generateNames(ArrayList<Person> persons)
-			throws IOException {
+	private static void generateNames( ArrayList<Person> persons ) throws IOException {
 		BufferedReader nameReader = new BufferedReader(new FileReader(
 				"names.txt"));
 		ArrayList<String> names = new ArrayList<>();
@@ -216,7 +213,7 @@ public class GameController {
 		}
 	}
 
-	public void startGame() throws IOException {
+	public void startGame( ) throws IOException {
 
 		System.out.println("Enter name!");
 		Scanner scn = new Scanner(System.in);
@@ -313,7 +310,7 @@ public class GameController {
 		}
 	}
 
-	private Employee findEmployee(String nextLine) throws GameException {
+	private Employee findEmployee( String nextLine ) throws GameException {
 		switch (nextLine) {
 		case "barman":
 			return restaurant.barman;
@@ -331,13 +328,12 @@ public class GameController {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main( String[] args ) throws IOException {
 		GameController gc = new GameController();
 		gc.startGame();
 	}
 
-	public static <E> ArrayList<E> getRandomElements(ArrayList<E> original,
-			int count) {
+	public static <E> ArrayList<E> getRandomElements( ArrayList<E> original, int count ) {
 		ArrayList<Integer> indexes = new ArrayList<>();
 		for (int i = 0; i < original.size(); ++i) {
 			indexes.add(new Integer(i));

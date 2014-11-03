@@ -6,7 +6,7 @@ package restaurant;
 
 public class Beverage extends MenuItem
 {
-	public Beverage(String name, int volume) {
+	public Beverage( String name, int volume ) {
 		super(name);
 		this.volume = volume;
 	}

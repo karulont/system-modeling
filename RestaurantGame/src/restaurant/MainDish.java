@@ -5,14 +5,14 @@
 package restaurant;
 
 public class MainDish extends MenuItem {
-	public MainDish(String name, int calories) {
+	public MainDish( String name, int calories ) {
 		super(name);
 		calorieCount = calories;
 	}
 
 	protected int calorieCount;
 
-	public int computeProductionPrice() {
+	public int computeProductionPrice( ) {
 		switch (qualityLevel) {
 		case LOW:
 			return 3;

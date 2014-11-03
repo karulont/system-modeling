@@ -5,9 +5,8 @@
 package restaurant;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import org.omg.CORBA.RepositoryIdHelper;
+import java.util.Random;
 
 public class Restaurant {
 	private String name;
@@ -33,7 +32,7 @@ public class Restaurant {
 
 	protected ArrayList<Order> orders;
 
-	public Restaurant() {
+	public Restaurant( ) {
 		name = "Sad Chef's inn";
 		address = "Ivory road, 45";
 		city = "Burgsburg";
@@ -70,7 +69,7 @@ public class Restaurant {
 		orders = new ArrayList<>();
 	}
 
-	public void paySuppliers(int startDay) {
+	public void paySuppliers( int startDay ) {
 		int sum = 0;
 		for (Order o : orders) {
 			if (o.date > startDay - 7) {
@@ -81,19 +80,19 @@ public class Restaurant {
 		budget -= sum;
 	}
 
-	public void computeReputation(int clientSatisfaction) {
+	public void computeReputation( int clientSatisfaction ) {
 
 	}
 
-	public void payUtilities(int amount) {
+	public void payUtilities( int amount ) {
 
 	}
 
-	public void paySalaries(int amount) {
+	public void paySalaries( int amount ) {
 
 	}
 
-	public void populateTables(ArrayList<Client> clients) {
+	public void populateTables( ArrayList<Client> clients ) {
 		int tablesOccupied = reputationPoints >= 30 ? 9
 				: (reputationPoints >= 15 ? 5 : 2);
 		ArrayList<Table> tables = GameController.getRandomElements(this.tables,
@@ -106,13 +105,13 @@ public class Restaurant {
 		}
 	}
 
-	public void clearTables() {
+	public void clearTables( ) {
 		for (Table t : tables) {
 			t.clients.clear();
 		}
 	}
 
-	public void serviceTables(int day) {
+	public void serviceTables( int day ) {
 		Random ran = new Random();
 		for (Table t : tables) {
 			for (Client c : t.clients) {
@@ -132,12 +131,11 @@ public class Restaurant {
 		}
 	}
 
-	public void computeClientStatistics() {
+	public void computeClientStatistics( ) {
 
 	}
 
-	public Order processOrder(Client client, MainDish dish, Beverage beverage,
-			Table table, int day) {
+	public Order processOrder( Client client, MainDish dish, Beverage beverage, Table table, int day ) {
 		Random ran = new Random();
 		int clientSatisfaction = 0;
 		double waiterThres = 0;

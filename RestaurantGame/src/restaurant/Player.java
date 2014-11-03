@@ -6,7 +6,7 @@ package restaurant;
 
 public class Player {
 
-	public Player(String name, int score) {
+	public Player( String name, int score ) {
 		this.name = name;
 		this.score = score;
 	}

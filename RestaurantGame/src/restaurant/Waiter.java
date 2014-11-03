@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Waiter extends Employee
 {
 
-	public Waiter() {
+	public Waiter( ) {
 		tables=new ArrayList<Table>(3);
 	}
 	protected ArrayList<Table> tables;
@@ -31,7 +31,7 @@ public class Waiter extends Employee
 	
 
 	@Override
-	public int getTrainingCost() {
+	public int getTrainingCost( ) {
 		return 800;
 	}
 }
