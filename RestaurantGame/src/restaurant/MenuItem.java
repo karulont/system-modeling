@@ -31,7 +31,6 @@ public abstract class MenuItem
 
 	@Override
 	public String toString( ) {
-		// TODO Auto-generated method stub
 		return name;
 	}
 	
