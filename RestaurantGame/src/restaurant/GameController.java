@@ -119,7 +119,7 @@ public class GameController {
 			if (hCount++ < highNo)
 				d.qualityLevel = Quality.HIGH;
 			else
-				d.qualityLevel = Quality.LOW;
+				break;
 		}
 	}
 
@@ -132,7 +132,7 @@ public class GameController {
 			if (hCount++ < highNo)
 				b.qualityLevel = Quality.HIGH;
 			else
-				b.qualityLevel = Quality.LOW;
+				break;
 		}
 
 	}

@@ -36,8 +36,7 @@ public class Client extends Person {
 			}
 			calories += o.dish.calorieCount;
 			volume += o.beverage.volume;
-			totalcost += o.dish.price;
-			totalcost += o.beverage.price;
+			totalcost += o.dish.price + o.beverage.price;
 		}
 		double avgcalories = calories / orders.size();
 		double avgvolume = volume / orders.size();
