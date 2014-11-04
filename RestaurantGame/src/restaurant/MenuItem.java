@@ -12,16 +12,11 @@ public abstract class MenuItem
 	
 	protected int price;
 	
-	
-	public MenuItem( )
-	{
-		
-	}
-	
 	public abstract int computeProductionPrice( );
 	
 	public MenuItem( String name ){
 		this.name = name;
+		qualityLevel = Quality.LOW;
 	}
 	
 	public void setPrice( int price )

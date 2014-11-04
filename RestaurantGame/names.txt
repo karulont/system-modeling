@@ -9,7 +9,6 @@ Laura
 Mia
 Oliver
 Tiina
-Ülle
 Kristjan
 Aivar
 Sandra
@@ -18,7 +17,6 @@ Ivan
 Vladimir
 Margus
 Andrus
-Ülle
 Artjom
 Robert
 Eduard
@@ -30,7 +28,6 @@ Urmas
 Rein
 Johan
 Jaan
-Tõnis
 Karl
 Rasmus
 Aleksandr

@@ -4,13 +4,13 @@
 
 package restaurant;
 
-import java.util.ArrayList;
-import java.util.Random;
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.Scanner;
-import java.util.NoSuchElementException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.Scanner;
 
 public class GameController {
 
@@ -162,16 +162,17 @@ public class GameController {
 		}
 	}
 
-	private static void generateNames( ArrayList<Person> persons ) throws IOException {
-		BufferedReader nameReader = new BufferedReader(new FileReader(
-				"names.txt"));
+	private void generateNames(ArrayList<Person> persons) throws IOException {
+		BufferedReader nameReader = new BufferedReader(new InputStreamReader(
+				getClass().getResourceAsStream("/names.txt")));
 		ArrayList<String> names = new ArrayList<>();
 		String line;
 		while ((line = nameReader.readLine()) != null) {
 			names.add(line);
 		}
 		nameReader.close();
-		nameReader = new BufferedReader(new FileReader("surnames.txt"));
+		nameReader = new BufferedReader(new InputStreamReader(
+				getClass().getResourceAsStream("/surnames.txt")));
 		ArrayList<String> surnames = new ArrayList<>();
 		while ((line = nameReader.readLine()) != null) {
 			surnames.add(line);
