@@ -9,13 +9,13 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 public class Client extends Person {
-	public Client() {
+	public Client( ) {
 		orders = new ArrayList<>();
 	}
 
 	protected ArrayList<Order> orders;
 
-	public void computeStatistics() {
+	public void computeStatistics( ) {
 		IdentityHashMap<MainDish, Integer> dishmap = new IdentityHashMap<>();
 		IdentityHashMap<Beverage, Integer> bevmap = new IdentityHashMap<>();
 		double calories = 0;

@@ -25,7 +25,7 @@ public class Restaurant {
 
 	protected ArrayList<Order> orders;
 
-	public Restaurant() {
+	public Restaurant( ) {
 		budget = 10000;
 		reputationPoints = 15;
 		tables = new ArrayList<>(9);
@@ -59,7 +59,7 @@ public class Restaurant {
 		orders = new ArrayList<>();
 	}
 
-	public void paySuppliers(int startDay) {
+	public void paySuppliers( int startDay ) {
 		int sum = 0;
 		for (Order o : orders) {
 			if (o.date > startDay - 7) {
@@ -70,7 +70,7 @@ public class Restaurant {
 		budget -= sum;
 	}
 
-	public void populateTables(ArrayList<Client> clients) {
+	public void populateTables( ArrayList<Client> clients ) {
 		int tablesOccupied = reputationPoints >= 30 ? 9
 				: (reputationPoints >= 15 ? 5 : 2);
 		ArrayList<Table> tables = GameController.getRandomElements(this.tables,
@@ -83,13 +83,13 @@ public class Restaurant {
 		}
 	}
 
-	public void clearTables() {
+	public void clearTables( ) {
 		for (Table t : tables) {
 			t.clients.clear();
 		}
 	}
 
-	public void serviceTables(int day) {
+	public void serviceTables( int day ) {
 		Random ran = new Random();
 		for (Table t : tables) {
 			for (Client c : t.clients) {
@@ -110,8 +110,7 @@ public class Restaurant {
 		}
 	}
 
-	public Order processOrder(Client client, MainDish dish, Beverage beverage,
-			Table table, int day) {
+	public Order processOrder( Client client, MainDish dish, Beverage beverage, Table table, int day ) {
 		Random ran = new Random();
 		int clientSatisfaction = 0;
 		double waiterThres = 0;

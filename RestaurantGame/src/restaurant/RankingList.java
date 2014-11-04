@@ -4,19 +4,19 @@
 
 package restaurant;
 
-import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.io.BufferedWriter;
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class RankingList
 {
 	ArrayList<Player> rankings = new ArrayList<>();
 
-	public void load() throws IOException {
+	public void load( ) throws IOException {
 		File f = new File("rankings.txt");
 		if (f.exists()) {
 			BufferedReader rankingsReader = new BufferedReader(
@@ -33,7 +33,7 @@ public class RankingList
 		}
 	}
 	
-	public void add(Player player) {
+	public void add( Player player ) {
 		for (int i = 0; i < rankings.size(); ++i) {
 			if (player.score > rankings.get(i).score) {
 				rankings.add(i, player);
@@ -45,7 +45,7 @@ public class RankingList
 		}
 	}
 
-	public void printAndSave() throws IOException {
+	public void printAndSave( ) throws IOException {
 		System.out.println("Rankings are:");
 
 		BufferedWriter rankWriter = new BufferedWriter(new FileWriter("rankings.txt"));
